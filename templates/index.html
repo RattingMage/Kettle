@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <title>Kettle menu</title>
+</head>
+<body>
+    <script>
+        function set_wl() {
+            let water_level = {};
+            water_level["water_level"] = prompt("Введите кол-во воды");
+            fetch('/set_water_level', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(water_level)
+            });
+        }
+
+        function refresh() {
+                window .location.reload();
+        }
+        window.setInterval('refresh()', 1000);
+
+        function switch_on(){
+            fetch("/switch_on");
+        }
+        function switch_off(){
+            fetch("/switch_off");
+        }
+    </script>
+    <h2>Кол-во воды: {{ context.water_level }} л.</h2>
+    <h2>Состояние: {{ context.status }}</h2>
+    <h2>Температура: {{ context.temperature }} °C</h2>
+    <input class="btn btn-primary" value="Налить воды в чайник" onclick="set_wl()" type="button">
+    <input class="btn btn-primary" value="Включить чайник" onclick="switch_on()" type="button">
+    <input class="btn btn-primary" value="Выключить чайник" onclick="switch_off()" type="button">
+
+</body>
+</html>
